@@ -1,0 +1,78 @@
+syntax = "proto3";
+
+package server.options.transaction;
+option go_package = "github.com/xhayamix/proto-gen-spanner/pkg/domain/proto/server/options/transaction";
+
+import "google/protobuf/descriptor.proto";
+
+message MessageOption {
+  enum AccessorType {
+    // デフォルトはAdminAndServer
+    AdminAndServer = 0;
+    OnlyClient = 1;
+    OnlyClientWithCommonResponse = 2;
+    All = 3;
+    AllWithCommonResponse = 4;
+  }
+  AccessorType accessorType = 1;
+
+  message DDL {
+    message Index {
+      message Key {
+        string column = 1;
+        bool desc = 2;
+      }
+      repeated Key keys = 1;
+      bool unique = 2;
+      repeated string storing = 3;
+    }
+    repeated Index indexes = 1;
+
+    message Interleave {
+      string table = 1;
+    }
+    Interleave interleave = 2;
+
+    message Ttl {
+      string timestampColumn = 1;
+      int32 days = 2;
+    }
+    Ttl ttl = 3;
+  }
+  DDL ddl = 2;
+
+  string insertTiming = 3;
+}
+
+message FieldOption {
+  enum AccessorType {
+    All = 0;
+    OnlyAdmin = 1;
+    OnlyServer = 2;
+    OnlyClient = 3;
+    AdminAndServer = 4;
+    AdminAndClient = 5;
+    ServerAndClient = 6;
+  }
+  AccessorType accessorType = 1;
+
+  message DDL {
+    bool pk = 1;
+
+    message MasterRef {
+      string table = 1;
+      string column = 2;
+      repeated string parentColumns = 3;
+    }
+    MasterRef masterRef = 3;
+  }
+  DDL ddl = 2;
+}
+
+extend google.protobuf.MessageOptions {
+  MessageOption message = 52001;
+}
+
+extend google.protobuf.FieldOptions {
+  FieldOption field = 52002;
+}

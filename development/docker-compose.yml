@@ -1,0 +1,30 @@
+version: "3.7"
+
+
+services:
+  protobuf:
+    platform: linux/x86_64
+    container_name: protobuf
+    image: protobuf
+    build:
+      context: ../
+      dockerfile: ./build/docker/protobuf/Dockerfile
+      args:
+        - GO_VERSION=${GO_VERSION}
+    working_dir: /usr/src/proto-gen-golang
+    volumes:
+      - ../:/usr/src/proto-gen-golang
+
+  protoc:
+    platform: linux/x86_64
+    container_name: protoc-gen-all
+    image: protoc-gen-all
+    build:
+      context: ../
+      dockerfile: ./build/docker/protoc/Dockerfile
+      args:
+        - GO_VERSION=${GO_VERSION}
+    working_dir: /usr/src/proto-gen-golang
+    volumes:
+      - ../:/usr/src/proto-gen-golang
+

@@ -1,0 +1,82 @@
+[
+ {
+  "name": "ActiveUserType",
+  "elements": [
+   {
+    "rawName": "provisional",
+    "value": 1,
+    "comment": "仮登録"
+   },
+   {
+    "rawName": "Active",
+    "value": 2,
+    "comment": "アクティブユーザー"
+   },
+   {
+    "rawName": "Deleted",
+    "value": 99,
+    "comment": "アカウント削除済み"
+   }
+  ]
+ },
+ {
+  "name": "ErrorCode",
+  "elements": [
+   {
+    "rawName": "InvalidArgument",
+    "value": 1001,
+    "comment": "パラメータの不正"
+   },
+   {
+    "rawName": "Internal",
+    "value": 1002,
+    "comment": "サーバー内部エラー"
+   },
+   {
+    "rawName": "Unauthenticated",
+    "value": 1003,
+    "comment": "認証エラー"
+   },
+   {
+    "rawName": "PermissionDenied",
+    "value": 1004,
+    "comment": "アクセス権限なし"
+   },
+   {
+    "rawName": "NotFound",
+    "value": 1005,
+    "comment": "リソースが見つからなかった"
+   },
+   {
+    "rawName": "UserNotFound",
+    "value": 2001,
+    "comment": "ユーザーが見つからなかった"
+   },
+   {
+    "rawName": "UserDeleted",
+    "value": 2002,
+    "comment": "ユーザーは削除済み"
+   },
+   {
+    "rawName": "InMaintenance",
+    "value": 2003,
+    "comment": "メンテナンス中"
+   },
+   {
+    "rawName": "AccountBan",
+    "value": 2004,
+    "comment": "アカウント停止中"
+   },
+   {
+    "rawName": "NgWordContains",
+    "value": 2005,
+    "comment": "NGワードが含まれている"
+   },
+   {
+    "rawName": "ShopInvalidDay",
+    "value": 2006,
+    "comment": "無効な日付"
+   }
+  ]
+ }
+]

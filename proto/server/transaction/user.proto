@@ -1,0 +1,28 @@
+syntax = "proto3";
+
+package server.transaction;
+option go_package = "github.com/xhayamix/proto-gen-spanner/pkg/domain/entity/transaction";
+
+import "server/enums/active_user_type_gen.proto";
+import "server/options/transaction/transaction.proto";
+
+// ユーザー
+message User {
+  option (server.options.transaction.message) = {
+    accessorType: AdminAndServer
+    insertTiming: "新規ユーザー作成時",
+  };
+
+  // ユーザーID
+  string userId = 1 [(server.options.transaction.field) = {
+    accessorType: AdminAndServer
+    ddl: { pk: true }
+  }];
+
+  // サーバー内用ユーザーID
+  string serverUserId = 3
+  [(server.options.transaction.field) = { accessorType: AdminAndServer }];
+
+  // 公開ユーザーID
+  string publicUserId = 2;
+}
