@@ -12,6 +12,7 @@ import (
 
 type Service interface {
 	GetProfile(ctx context.Context, tx database.ROTx, userID string) (*dto.User, error)
+	SaveUser(ctx context.Context, tx database.RWTx, userID, publicUserID string) error
 }
 
 type service struct {
@@ -37,4 +38,11 @@ func (s *service) GetProfile(ctx context.Context, tx database.ROTx, userID strin
 		UserID:       user.UserID,
 		PublicUserID: user.PublicUserID,
 	}, nil
+}
+
+func (s *service) SaveUser(ctx context.Context, tx database.RWTx, userID, publicUserID string) error {
+	return s.userRepository.Save(ctx, tx, &transaction.User{
+		UserID:       userID,
+		PublicUserID: publicUserID,
+	})
 }

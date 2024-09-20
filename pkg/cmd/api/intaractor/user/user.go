@@ -11,6 +11,7 @@ import (
 
 type Interactor interface {
 	GetProfile(ctx context.Context, userID string) (*dto.User, error)
+	SaveUser(ctx context.Context, userID, publicUserID string) error
 }
 
 type interactor struct {
@@ -42,4 +43,10 @@ func (i *interactor) GetProfile(ctx context.Context, userID string) (*dto.User, 
 	}
 
 	return user, nil
+}
+
+func (i *interactor) SaveUser(ctx context.Context, userID, publicUserID string) error {
+	return i.txManager.Transaction(ctx, func(ctx context.Context, tx database.RWTx) error {
+		return i.userService.SaveUser(ctx, tx, userID, publicUserID)
+	})
 }
