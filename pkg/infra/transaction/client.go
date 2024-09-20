@@ -3,6 +3,7 @@ package spanner
 import (
 	"context"
 	"fmt"
+	"log"
 
 	"cloud.google.com/go/spanner"
 
@@ -12,7 +13,8 @@ import (
 
 func New(ctx context.Context) (*spanner.Client, error) {
 	conf := entity.GetConfig()
-	dbPath := fmt.Sprintf("projects/%s/instances/%s/databases/%s", conf.ProjectID, conf.Instance, conf.Instance)
+	dbPath := fmt.Sprintf("projects/%s/instances/%s/databases/%s", conf.ProjectID, conf.Instance, conf.DBName)
+	log.Println("dbPath:", dbPath)
 	// TODO: config
 	config := spanner.ClientConfig{
 		SessionPoolConfig: spanner.DefaultSessionPoolConfig,

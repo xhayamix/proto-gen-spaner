@@ -13,6 +13,12 @@ define docker-compose
 		$1
 endef
 
+run-spanner:
+	docker compose -f ./local/docker-compose.yaml up -d
+
+run-api:
+	go run cmd/api/main.go
+
 ## protobuf (usage: `make protobuf arg='protoc --proto_path=./proto --go_out=module=github.com/xhayamix/proto-gen-transaction:. ./proto/server/options/api/api.proto'`)
 .PHONY: protobuf
 protobuf:

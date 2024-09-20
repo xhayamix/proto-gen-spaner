@@ -1,8 +1,6 @@
 {{ range .Tables -}}
--- {{ .Comment }} {{ .CommentInfo }}
 CREATE TABLE {{ .GoName }} (
   {{- range .Columns }}
-  -- {{ .Comment }} {{ .CommentInfo }}
   {{ .GoName }} {{ .Type }}
     {{- if .PK }} NOT NULL{{ end -}}
     ,

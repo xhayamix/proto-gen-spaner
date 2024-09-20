@@ -1,12 +1,15 @@
 package main
 
 import (
+	"cloud.google.com/go/spanner"
 	"context"
 	"fmt"
+	"google.golang.org/api/iterator"
 	"log"
 	"net"
 	"os"
 	"os/signal"
+	"time"
 
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/health"
@@ -38,6 +41,12 @@ func main() {
 		app.SpannerDB.Close()
 	}()
 
+	if checkSpannerConnection(app.SpannerDB) {
+		log.Println("Connected to Spanner successfully.")
+	} else {
+		log.Println("Failed to connect to Spanner.")
+	}
+
 	s := grpc.NewServer()
 	clientapi.RegisterUserServer(s, app.UserHandler)
 
@@ -59,4 +68,23 @@ func main() {
 	<-quit
 	log.Println("stopping gRPC server...")
 	s.GracefulStop()
+}
+
+func checkSpannerConnection(client *spanner.Client) bool {
+	ctx := context.Background()
+	stmt := spanner.NewStatement("SELECT 1")
+	ro := client.Single().WithTimestampBound(spanner.MaxStaleness(10 * time.Second))
+	defer ro.Close()
+
+	iter := ro.Query(ctx, stmt)
+	defer iter.Stop()
+
+	if row, err := iter.Next(); err != nil && err != iterator.Done {
+		log.Println("Failed to query Spanner:", err)
+		return false
+	} else if row == nil {
+		log.Println("No rows returned in query to Spanner")
+		return false
+	}
+	return true
 }

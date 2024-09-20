@@ -26,9 +26,11 @@ func New{{ .GoName }}Repository() repository.{{ .GoName }}Repository {
 	return &{{ .CamelName }}Repository{}
 }
 
+/*
 func (r *{{ .CamelName }}Repository) extractQueryCache(ctx context.Context) (base.{{ .GoName }}SearchResultCache, base.{{ .GoName }}MutationWaitBuffer) {
 	return base.Extract{{ .GoName }}SearchResultCache(ctx), base.Extract{{ .GoName }}MutationWaitBuffer(ctx)
 }
+*/
 
 func (r *{{ .CamelName }}Repository) LoadByPK(ctx context.Context, tx database.ROTx, pk *transaction.{{ .GoName }}PK) (*transaction.{{ .GoName }}, error) {
 	row, err := r.SelectByPK(ctx, tx, pk)

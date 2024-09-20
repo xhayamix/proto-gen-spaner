@@ -25,9 +25,11 @@ func NewUserRepository() repository.UserRepository {
 	return &userRepository{}
 }
 
+/*
 func (r *userRepository) extractQueryCache(ctx context.Context) (base.UserSearchResultCache, base.UserMutationWaitBuffer) {
 	return base.ExtractUserSearchResultCache(ctx), base.ExtractUserMutationWaitBuffer(ctx)
 }
+*/
 
 func (r *userRepository) LoadByPK(ctx context.Context, tx database.ROTx, pk *transaction.UserPK) (*transaction.User, error) {
 	row, err := r.SelectByPK(ctx, tx, pk)
