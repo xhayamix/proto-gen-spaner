@@ -46,14 +46,6 @@ type UserQueryBuilderPredicate interface {
 	UserIDLte(param string) UserQueryBuilderSecondClause
 	UserIDIn(params []string) UserQueryBuilderSecondClause
 	UserIDNin(params []string) UserQueryBuilderSecondClause
-	ServerUserIDEq(param string) UserQueryBuilderSecondClause
-	ServerUserIDNe(param string) UserQueryBuilderSecondClause
-	ServerUserIDGt(param string) UserQueryBuilderSecondClause
-	ServerUserIDGte(param string) UserQueryBuilderSecondClause
-	ServerUserIDLt(param string) UserQueryBuilderSecondClause
-	ServerUserIDLte(param string) UserQueryBuilderSecondClause
-	ServerUserIDIn(params []string) UserQueryBuilderSecondClause
-	ServerUserIDNin(params []string) UserQueryBuilderSecondClause
 	PublicUserIDEq(param string) UserQueryBuilderSecondClause
 	PublicUserIDNe(param string) UserQueryBuilderSecondClause
 	PublicUserIDGt(param string) UserQueryBuilderSecondClause
@@ -110,7 +102,7 @@ func (qb *userQueryBuilder) addParam(condition string, param interface{}) {
 }
 
 func (qb *userQueryBuilder) SelectAllFromUser() UserQueryBuilderFirstClause {
-	cols := "`UserID`, `ServerUserID`, `PublicUserID`, `CreatedTime`, `UpdatedTime`"
+	cols := "`UserID`, `PublicUserID`, `CreatedTime`, `UpdatedTime`"
 	qb.builder.WriteString("SELECT " + cols + " FROM " + "`" + transaction.UserTableName + "`")
 	return qb
 }
@@ -175,62 +167,6 @@ func (qb *userQueryBuilder) UserIDIn(params []string) UserQueryBuilderSecondClau
 
 func (qb *userQueryBuilder) UserIDNin(params []string) UserQueryBuilderSecondClause {
 	qb.builder.WriteString("`UserID` NOT IN (")
-	for i, param := range params {
-		if i != 0 {
-			qb.builder.WriteString(", ")
-		}
-		qb.addParam("", param)
-	}
-	qb.builder.WriteString(")")
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDEq(param string) UserQueryBuilderSecondClause {
-	qb.queryConditions = append(qb.queryConditions, &UserQueryCondition{column: "ServerUserID", operator: ConditionOperatorEq, value: param})
-	qb.addParam("`ServerUserID` = ", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDNe(param string) UserQueryBuilderSecondClause {
-	qb.addParam("`ServerUserID` != ", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDGt(param string) UserQueryBuilderSecondClause {
-	qb.addParam("`ServerUserID` >", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDGte(param string) UserQueryBuilderSecondClause {
-	qb.addParam("`ServerUserID` >= ", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDLt(param string) UserQueryBuilderSecondClause {
-	qb.addParam("`ServerUserID` < ", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDLte(param string) UserQueryBuilderSecondClause {
-	qb.addParam("`ServerUserID` <= ", param)
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDIn(params []string) UserQueryBuilderSecondClause {
-	qb.queryConditions = append(qb.queryConditions, &UserQueryCondition{column: "ServerUserID", operator: ConditionOperatorIn, value: strset.New(params...)})
-	qb.builder.WriteString("`ServerUserID` IN (")
-	for i, param := range params {
-		if i != 0 {
-			qb.builder.WriteString(", ")
-		}
-		qb.addParam("", param)
-	}
-	qb.builder.WriteString(")")
-	return qb
-}
-
-func (qb *userQueryBuilder) ServerUserIDNin(params []string) UserQueryBuilderSecondClause {
-	qb.builder.WriteString("`ServerUserID` NOT IN (")
 	for i, param := range params {
 		if i != 0 {
 			qb.builder.WriteString(", ")

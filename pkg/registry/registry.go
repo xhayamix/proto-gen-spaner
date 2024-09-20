@@ -1,5 +1,9 @@
 package registry
 
+/*
+
+気が向いたらcloserNewを実装します
+
 import (
 	"cloud.google.com/go/spanner"
 	"context"
@@ -9,7 +13,7 @@ import (
 )
 
 type SpannerConfig interface {
-	GetProjectID() string
+    GetProjectID() string
 	GetSpannerInstance() string
 	GetSpannerDB() string
 }
@@ -30,3 +34,5 @@ func NewSpannerConstructor(
 		return client, nil
 	}
 }
+
+*/

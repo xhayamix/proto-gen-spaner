@@ -58,13 +58,7 @@ func (m *Profile) validate(all bool) error {
 
 	// no validation rules for UserId
 
-	// no validation rules for AccountId
-
-	// no validation rules for Name
-
-	// no validation rules for IconImageUrl
-
-	// no validation rules for Bio
+	// no validation rules for PublicUserId
 
 	if len(errors) > 0 {
 		return ProfileMultiError(errors)

@@ -15,13 +15,8 @@ message User {
 
   // ユーザーID
   string userId = 1 [(server.options.transaction.field) = {
-    accessorType: AdminAndServer
     ddl: { pk: true }
   }];
-
-  // サーバー内用ユーザーID
-  string serverUserId = 3
-  [(server.options.transaction.field) = { accessorType: AdminAndServer }];
 
   // 公開ユーザーID
   string publicUserId = 2;

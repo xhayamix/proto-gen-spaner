@@ -12,11 +12,8 @@ service User {
 }
 
 message Profile {
-  string userId = 1; // ユーザーデータを一意に定めるuuid
-  string account_id = 2; // 画面に表示するユーザーが設定できるID
-  string name = 3;
-  string iconImageURL = 4;
-  string bio = 5;
+  string userId = 1;
+  string publicUserId = 2;
 }
 
 message GetProfileRequest {

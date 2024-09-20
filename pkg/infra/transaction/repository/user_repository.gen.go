@@ -220,14 +220,12 @@ func (r *userRepository) Insert(ctx context.Context, tx database.RWTx, entity *t
 	mutation := spanner.Insert(transaction.UserTableName,
 		[]string{
 			"UserID",
-			"ServerUserID",
 			"PublicUserID",
 			"CreatedTime",
 			"UpdatedTime",
 		},
 		[]interface{}{
 			entity.UserID,
-			entity.ServerUserID,
 			entity.PublicUserID,
 			entity.CreatedTime,
 			entity.UpdatedTime,
@@ -260,14 +258,12 @@ func (r *userRepository) Update(ctx context.Context, tx database.RWTx, entity *t
 	mutation := spanner.Update(transaction.UserTableName,
 		[]string{
 			"UserID",
-			"ServerUserID",
 			"PublicUserID",
 			"CreatedTime",
 			"UpdatedTime",
 		},
 		[]interface{}{
 			entity.UserID,
-			entity.ServerUserID,
 			entity.PublicUserID,
 			entity.CreatedTime,
 			entity.UpdatedTime,
@@ -308,14 +304,12 @@ func (r *userRepository) BulkDelete(ctx context.Context, tx database.RWTx, pks t
 
 func (r *userRepository) decodeAllColumns(row *spanner.Row) (*transaction.User, error) {
 	var userID spanner.NullString
-	var serverUserID spanner.NullString
 	var publicUserID spanner.NullString
 	var createdTime spanner.NullTime
 	var updatedTime spanner.NullTime
 
 	if err := row.Columns(
 		&userID,
-		&serverUserID,
 		&publicUserID,
 		&createdTime,
 		&updatedTime,
@@ -326,9 +320,6 @@ func (r *userRepository) decodeAllColumns(row *spanner.Row) (*transaction.User, 
 	var result transaction.User
 	if userID.Valid {
 		result.UserID = userID.StringVal
-	}
-	if serverUserID.Valid {
-		result.ServerUserID = serverUserID.StringVal
 	}
 	if publicUserID.Valid {
 		result.PublicUserID = publicUserID.StringVal
@@ -346,9 +337,6 @@ func (r *userRepository) diffEntity(source, target *transaction.User) map[string
 	result := make(map[string]any)
 
 	// PKの差分は取らない
-	if source.ServerUserID != target.ServerUserID {
-		result["ServerUserID"] = target.ServerUserID
-	}
 	if source.PublicUserID != target.PublicUserID {
 		result["PublicUserID"] = target.PublicUserID
 	}

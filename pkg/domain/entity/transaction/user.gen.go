@@ -22,8 +22,6 @@ const (
 type User struct {
 	// ユーザーID
 	UserID string `json:"UserID,omitempty"`
-	// サーバー内用ユーザーID
-	ServerUserID string `json:"ServerUserID,omitempty"`
 	// 公開ユーザーID
 	PublicUserID string `json:"PublicUserID,omitempty"`
 	// 作成日時
@@ -41,7 +39,6 @@ func (e *User) GetPK() *UserPK {
 func (e *User) GetVals() []interface{} {
 	return []interface{}{
 		e.UserID,
-		e.ServerUserID,
 		e.PublicUserID,
 		e.CreatedTime,
 		e.UpdatedTime,
@@ -51,7 +48,6 @@ func (e *User) GetVals() []interface{} {
 func (e *User) ToKeyValue() map[string]interface{} {
 	return map[string]interface{}{
 		"UserID":       e.UserID,
-		"ServerUserID": e.ServerUserID,
 		"PublicUserID": e.PublicUserID,
 		"CreatedTime":  e.CreatedTime,
 		"UpdatedTime":  e.UpdatedTime,
@@ -61,7 +57,6 @@ func (e *User) ToKeyValue() map[string]interface{} {
 func (e *User) GetTypeMap() map[string]string {
 	return map[string]string{
 		"UserID":       "string",
-		"ServerUserID": "string",
 		"PublicUserID": "string",
 		"CreatedTime":  "time.Time",
 		"UpdatedTime":  "time.Time",
@@ -81,12 +76,6 @@ func (e *User) SetKeyValue(columns []string, entity []interface{}) []string {
 			e.UserID, ok = value.(string)
 			if !ok {
 				errs = append(errs, fmt.Sprintf("UserID: string parsing %#v: invalid syntax.", value))
-			}
-		case "ServerUserID":
-			var ok bool
-			e.ServerUserID, ok = value.(string)
-			if !ok {
-				errs = append(errs, fmt.Sprintf("ServerUserID: string parsing %#v: invalid syntax.", value))
 			}
 		case "PublicUserID":
 			var ok bool
@@ -147,7 +136,6 @@ func (e *User) SetKeyValue(columns []string, entity []interface{}) []string {
 func (e *User) ShallowCopy() *User {
 	return &User{
 		UserID:       e.UserID,
-		ServerUserID: e.ServerUserID,
 		PublicUserID: e.PublicUserID,
 	}
 }
@@ -156,7 +144,6 @@ func (e *User) ShallowCopy() *User {
 func (e *User) DeepCopy() *User {
 	return &User{
 		UserID:       e.UserID,
-		ServerUserID: e.ServerUserID,
 		PublicUserID: e.PublicUserID,
 	}
 }
@@ -165,7 +152,6 @@ func (e *User) DeepCopy() *User {
 func (e *User) FullDeepCopy() *User {
 	return &User{
 		UserID:       e.UserID,
-		ServerUserID: e.ServerUserID,
 		PublicUserID: e.PublicUserID,
 		CreatedTime:  e.CreatedTime,
 		UpdatedTime:  e.UpdatedTime,
@@ -174,7 +160,6 @@ func (e *User) FullDeepCopy() *User {
 
 // Reset PK, CreatedTime, UpdatedTime 以外を初期化
 func (e *User) Reset() {
-	e.ServerUserID = ""
 	e.PublicUserID = ""
 }
 
@@ -283,14 +268,6 @@ var UserColumns = column.Columns{
 		Comment:      "ユーザーID",
 	},
 	{
-		Name:         "ServerUserID",
-		Type:         "string",
-		DatabaseType: "STRING(MAX)",
-		PK:           false,
-		Nullable:     false,
-		Comment:      "サーバー内用ユーザーID",
-	},
-	{
 		Name:         "PublicUserID",
 		Type:         "string",
 		DatabaseType: "STRING(MAX)",
@@ -318,13 +295,11 @@ var UserColumns = column.Columns{
 
 var UserColumnNames = struct {
 	UserID       string
-	ServerUserID string
 	PublicUserID string
 	CreatedTime  string
 	UpdatedTime  string
 }{
 	UserID:       "UserID",
-	ServerUserID: "ServerUserID",
 	PublicUserID: "PublicUserID",
 	CreatedTime:  "CreatedTime",
 	UpdatedTime:  "UpdatedTime",
@@ -332,7 +307,6 @@ var UserColumnNames = struct {
 
 var UserColumnNameSlice = []string{
 	UserColumnNames.UserID,
-	UserColumnNames.ServerUserID,
 	UserColumnNames.PublicUserID,
 	UserColumnNames.CreatedTime,
 	UserColumnNames.UpdatedTime,
